@@ -1,0 +1,19 @@
+using GuidSystem.Runtime;
+using UnityEngine;
+
+namespace _Project._Scripts.Projectiles
+{
+    [CreateAssetMenu(fileName = "New Projectile Type", menuName = "BerkcanKarabulut/Projectile System/Projectile Type")]
+    public class ProjectileTypeSO : ScriptableObject
+    {
+        public SerializableGuid Id = SerializableGuid.NewGuid();
+
+
+#if UNITY_EDITOR
+        private void OnValidate()
+        {
+            Id = SerializableGuid.NewGuid();
+        }
+#endif
+    }
+}

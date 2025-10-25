@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 820967f078f74fceb4ac07b59a7dbef3, type: 3}
+  m_Name: Level 3
+  m_EditorClassIdentifier: 
+  _boardSize: {x: 4, y: 8}
+  _defenceUnits:
+  - _unitInfo: {fileID: 11400000, guid: fc089f2003a7d2246adc7985799f9026, type: 2}
+    _unitCount: 5
+  - _unitInfo: {fileID: 11400000, guid: 6aade1efa3213534cb9a58ff81b99af1, type: 2}
+    _unitCount: 3
+  - _unitInfo: {fileID: 11400000, guid: c35176d8566b4964291c16072f69114a, type: 2}
+    _unitCount: 1
+  _enemyUnits:
+  - _unitInfo: {fileID: 11400000, guid: ef4d86818632f3f49b172d7459f1f473, type: 2}
+    _unitCount: 3
+  - _unitInfo: {fileID: 11400000, guid: 05a8dcbe7847cf84ab23063ec44deef6, type: 2}
+    _unitCount: 1
+  - _unitInfo: {fileID: 11400000, guid: da7bfc27d7856604983bf650c4f4b951, type: 2}
+    _unitCount: 1
