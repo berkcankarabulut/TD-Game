@@ -40,7 +40,7 @@ namespace _Project._Scripts.Units.Defence
         {
             base.Initialize();
             StatsInitialize();
-            InitializeAnimation();
+            InitializeAnimation(); 
 
             _healthBarView.Initialize(unitHealth);
             _projectileLauncher = new ProjectileLauncher(_projectileType, _projectileSpawnPoint);
@@ -70,6 +70,12 @@ namespace _Project._Scripts.Units.Defence
         {
             UnitDamage damage = new UnitDamage(DamageStat, unitDamageType, this);
             _projectileLauncher.LaunchProjectile(damage, this, RangeStat);
-        }
+        } 
+        
+        public override void TakeDamage(IUnitDamage damage)
+        {
+            base.TakeDamage(damage);
+            _healthBarView.HandleHealthChange(unitHealth.CurrentHealth, unitHealth.MaxHealth);
+        } 
     }
 }

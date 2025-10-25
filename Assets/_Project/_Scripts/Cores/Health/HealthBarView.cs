@@ -10,36 +10,18 @@ namespace _Project._Scripts.Cores.Health
 
         private Health _health;
         private Vector3 _cameraPosition; 
-
         public void Initialize(Health health)
         {
-            _health = health;
-            _health.OnTakeDamage += HandleHealthChange;
-            _health.OnHeal += HandleHealthChange;
-            _health.OnDead += Dead;
-            
-            SetActive(true);
+            _health = health;  
             HandleHealthChange(_health.CurrentHealth, _health.MaxHealth);
-        }
-
-        private void Dead(Health health, GameObject killer)
-        {
-            _health.OnTakeDamage -= HandleHealthChange;
-            _health.OnHeal -= HandleHealthChange;
-            _health.OnDead -= Dead;
-            
-            SetActive(false);
-        }
-
-        private void HandleHealthChange(float currentHealth, float amount, GameObject damageGiver)
-        {
-            HandleHealthChange(_health.CurrentHealth, _health.MaxHealth);
-        }
-
-        private void HandleHealthChange(float currentHealth, float maxHealth)
+        }  
+        
+        public void HandleHealthChange(float currentHealth, float maxHealth)
         {
             float fillAmount = currentHealth / maxHealth;
-            _fillImage.fillAmount = fillAmount;  
+            _fillImage.fillAmount = fillAmount;
+            bool isDead = currentHealth == 0;
+            SetActive(!isDead);
         }
 
         private void SetActive(bool activate)

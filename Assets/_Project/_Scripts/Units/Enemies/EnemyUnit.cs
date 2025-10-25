@@ -1,3 +1,4 @@
+using System;
 using _Project._Scripts.Cores.Health;
 using _Project._Scripts.Cores.Stats;
 using _Project._Scripts.Cores.Units;
@@ -8,6 +9,7 @@ namespace _Project._Scripts.Units.Enemies
 {
     public class EnemyUnit : Unit
     {
+        [SerializeField] private UnitDetector _unitDetector;
         [Header("Stat Types")]  
         [SerializeField] private UnitStatType _attackIntervalType; 
         [SerializeField] private UnitStatType _moveSpeedType;
@@ -21,7 +23,8 @@ namespace _Project._Scripts.Units.Enemies
         
         [Header("UI")] 
         [SerializeField] private HealthBarView _healthBarView;
-      
+
+
         public float Damage => _damageStat.TotalValue;
         public float AttackInterval => _attackIntervalStat.TotalValue;
         public float MoveSpeed => _moveSpeedStat.TotalValue;
@@ -29,16 +32,34 @@ namespace _Project._Scripts.Units.Enemies
         public override void Initialize()
         {
             base.Initialize();
+            _unitDetector.Init(this);
             StatsInitialize();
             _healthBarView.Initialize(unitHealth);
-            _stateMachine = new EnemyStateMachine(this);
+            _stateMachine = new EnemyStateMachine(this,_unitDetector);
         }
-        
+
+        private void Update()
+        {
+            _stateMachine?.Tick(Time.deltaTime);
+        }
+
         private void StatsInitialize()
         { 
             _damageStat = unitStatContainer.GetStatByStatType(unitDamageType.DamageStatType);
             _attackIntervalStat = unitStatContainer.GetStatByStatType(_attackIntervalType);
             _moveSpeedStat = unitStatContainer.GetStatByStatType(_moveSpeedType);
+        }
+
+        public void DamageToTarget(Unit target)
+        { 
+            UnitDamage damage = new UnitDamage(Damage, unitDamageType, this);
+            target.TakeDamage(damage); 
+        }
+
+        public override void TakeDamage(IUnitDamage damage)
+        {
+            base.TakeDamage(damage);
+            _healthBarView.HandleHealthChange(unitHealth.CurrentHealth, unitHealth.MaxHealth);
         } 
     }
 }

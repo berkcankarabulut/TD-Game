@@ -34,9 +34,9 @@ namespace _Project._Scripts.Board
 
         private void UnitOnDead(Unit unit, GameObject killer)
         {
-            _currentDefenceUnit = null;
             _currentDefenceUnit.OnDead -= UnitOnDead;
             UnitSetable(true);
+            _currentDefenceUnit = null;
         }
     }
 }

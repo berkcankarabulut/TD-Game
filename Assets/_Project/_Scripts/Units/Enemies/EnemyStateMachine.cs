@@ -10,17 +10,38 @@ namespace _Project._Scripts.Units.Enemies
         private EnemyUnit _enemyUnit; 
         private UnitDetector _unitDetector;
         public EnemyUnit EnemyUnit => _enemyUnit;
-        public EnemyStateMachine(EnemyUnit enemyUnit)
+        public EnemyStateMachine(EnemyUnit enemyUnit, UnitDetector unitDetector)
         {
             _enemyUnit = enemyUnit;
-            ChangeState(new MovementState(this));
-            _enemyUnit.OnDead += DeadState;
+            _unitDetector = unitDetector;
+            _enemyUnit.OnDead += ChangeDeadState;
+            _unitDetector.OnUnitDetected += ChangeAttackState;
+            ChangeMoveState();
         }
 
-        private void DeadState(Unit arg1, GameObject arg2)
+        private void ChangeAttackState(Unit target)
         {
-            _enemyUnit.OnDead -= DeadState;
+            ChangeState(new AttackState(this,target));
+        }
+
+        private void ChangeDeadState(Unit arg1, GameObject arg2)
+        {
+            _enemyUnit.OnDead -= ChangeDeadState;
+            _unitDetector.OnUnitDetected -= ChangeAttackState;
+            
             ChangeState(new DeadState());
+        }
+
+        public void ChangeMoveState()
+        {
+            ChangeState(new MovementState(this));
+        }
+        
+        public void DamageToTarget(Unit target)
+        { 
+            _enemyUnit.DamageToTarget(target); 
+            if(target.UnitHealth.AmIDead)
+                ChangeMoveState();
         }
     }
 }

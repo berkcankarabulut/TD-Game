@@ -5,23 +5,19 @@ namespace _Project._Scripts.Cores.Units
 {
     public class UnitDetector : MonoBehaviour
     { 
-        [SerializeField] private Unit _ownerUnit;
         [SerializeField] private Collider _collider;
-
         private List<Unit> _detectedUnits = new List<Unit>();
-
+        
+        private Unit _ownerUnit; 
         public System.Action<Unit> OnUnitDetected = _ => { };
         public System.Action<Unit> OnUnitRemoved = _ => { }; 
-
-        private void Awake()
+ 
+        public void Init(Unit owner)
         {
-            Init();
-        }
-
-        private void Init()
-        {
+            _ownerUnit = owner;
             _collider.isTrigger = true; 
         } 
+        
         private void OnEnable()
         {
             if (_ownerUnit != null) return;
@@ -64,8 +60,7 @@ namespace _Project._Scripts.Cores.Units
         private void OnTriggerEnter(Collider other)
         { 
             var unit = other.GetComponent<Unit>();
-            if (unit == null || unit.UnitHealth.AmIDead || unit == _ownerUnit || _detectedUnits.Contains(unit)) return;
-
+            if (unit == null || unit.UnitHealth.AmIDead || unit == _ownerUnit || _detectedUnits.Contains(unit)) return;   
             AddUnit(unit);
         }
 
@@ -73,7 +68,6 @@ namespace _Project._Scripts.Cores.Units
         {
             var unit = other.GetComponent<Unit>();
             if (unit == null) return;
-
             RemoveUnit(unit);
         }
 
