@@ -10,14 +10,14 @@ namespace _Project._Scripts.Units.Defence
 {
     public class DefenceUnit : Unit
     {
-        [Header("Projectile Settings")]  
+        [Header("Projectile Settings")]
         [SerializeField] private ProjectileTypeSO _projectileType; 
         [SerializeField] private Transform _projectileSpawnPoint;
 
-        [Header("Stat Types")]  
+        [Header("Stat Types")] 
         [SerializeField] private UnitStatType _attackIntervalType; 
-        [SerializeField] private UnitStatType _rangeType;
-
+        [SerializeField] private UnitStatType _rangeType; 
+        
         [Header("UI")] 
         [SerializeField] private HealthBarView _healthBarView;
 
@@ -37,12 +37,12 @@ namespace _Project._Scripts.Units.Defence
         public float RangeStat => _rangeStat.TotalValue;
 
         public override void Initialize()
-        { 
+        {
             base.Initialize();
             StatsInitialize();
             InitializeAnimation();
-            
-            _healthBarView.Initialize(unitHealth); 
+
+            _healthBarView.Initialize(unitHealth);
             _projectileLauncher = new ProjectileLauncher(_projectileType, _projectileSpawnPoint);
             _stateMachine = new DefenceStateMachine(this);
         }
@@ -55,19 +55,19 @@ namespace _Project._Scripts.Units.Defence
         }
 
         private void StatsInitialize()
-        { 
+        {
             _damageStat = unitStatContainer.GetStatByStatType(unitDamageType.DamageStatType);
             _attackIntervalStat = unitStatContainer.GetStatByStatType(_attackIntervalType);
             _rangeStat = unitStatContainer.GetStatByStatType(_rangeType);
         }
 
         private void Update()
-        {  
+        {
             _stateMachine?.Tick(Time.deltaTime);
         }
-        
+
         public void FireProjectileWithRange()
-        { 
+        {
             UnitDamage damage = new UnitDamage(DamageStat, unitDamageType, this);
             _projectileLauncher.LaunchProjectile(damage, this, RangeStat);
         }

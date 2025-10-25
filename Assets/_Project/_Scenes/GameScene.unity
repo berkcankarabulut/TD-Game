@@ -167,7 +167,6 @@ MonoBehaviour:
   _enemySpawner: {fileID: 387735302}
   _boardContainer: {fileID: 31384863}
   _boardPrefab: {fileID: 7390725034114845739, guid: 522d0ae6fbc72634888f1dcd82ee924c, type: 3}
-  _spacing: 2
   _animationDuration: 0.5
   _delayBetweenTiles: 0.02
   _startYPosition: -5
@@ -298,7 +297,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _spawnDelay: 1
-  _spawnOffset: {x: 0, y: 2, z: 2}
+  _spawnOffset: {x: 0, y: 1, z: 2}
+  _spaceBetweenEnemies: 1.5
 --- !u!1 &409311019
 GameObject:
   m_ObjectHideFlags: 0

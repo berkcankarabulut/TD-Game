@@ -19,9 +19,9 @@ namespace _Project._Scripts.Units.Enemies
         private float _timer = 0;
 
         public void Init(UnitData<EnemyUnit>[] enemies, List<BoardItem> spawnBoards)
-        { 
-            CreateEnemyPool(enemies); 
-            CreateSpawnPoints(spawnBoards); 
+        {
+            CreateEnemyPool(enemies);
+            CreateSpawnPoints(spawnBoards);
             SetupSpawnTimer();
         }
 
@@ -48,7 +48,7 @@ namespace _Project._Scripts.Units.Enemies
             _spawnPoints = new List<Vector3>();
             for (int i = 0; i < spawnBoards.Count; i++)
             {
-                Vector3 spawnPoint = spawnBoards[i].transform.position + _spawnOffset; 
+                Vector3 spawnPoint = spawnBoards[i].transform.position + _spawnOffset;
                 _spawnPoints.Add(spawnPoint);
             }
         }
@@ -63,15 +63,18 @@ namespace _Project._Scripts.Units.Enemies
         {
             int randomSpawnIndex = Random.Range(0, _spawnPoints.Count);
             int randomEnemyIndex = Random.Range(0, _enemyPool.Count);
+            
             EnemyUnit enemyUnit = _enemyPool[randomEnemyIndex];
-            Instantiate(enemyUnit, _spawnPoints[randomSpawnIndex], Quaternion.identity);
-            _enemyPool.RemoveAt(randomEnemyIndex); 
+            EnemyUnit spawnUnit = Instantiate(enemyUnit, _spawnPoints[randomSpawnIndex], Quaternion.identity);
+            spawnUnit.Initialize();
+            
+            _enemyPool.RemoveAt(randomEnemyIndex);
             HandleSpawnCompletion();
         }
 
 
         private void HandleSpawnCompletion()
-        { 
+        {
             if (_enemyPool.Count != 0) return;
             _isActive = false;
             _timeCounter.Dispose();

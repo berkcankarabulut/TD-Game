@@ -14,6 +14,13 @@ namespace _Project._Scripts.Units.Enemies
         {
             _enemyUnit = enemyUnit;
             ChangeState(new MovementState(this));
+            _enemyUnit.OnDead += DeadState;
+        }
+
+        private void DeadState(Unit arg1, GameObject arg2)
+        {
+            _enemyUnit.OnDead -= DeadState;
+            ChangeState(new DeadState());
         }
     }
 }

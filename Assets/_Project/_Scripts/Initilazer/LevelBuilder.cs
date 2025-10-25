@@ -17,14 +17,13 @@ namespace Project._Scripts.Initilazer
         [SerializeField] private Transform _boardContainer;
         [SerializeField] private BoardItem _boardPrefab;
 
-        [Header("Animation Settings")] 
-        [SerializeField] private float _spacing = 1.1f;
+        [Header("Animation Settings")]  
         [SerializeField] private float _animationDuration = 0.5f;
         [SerializeField] private float _delayBetweenTiles = 0.02f;
-        [SerializeField] private float _startYPosition = -5f;
-
+        [SerializeField] private float _startYPosition = -5f; 
+        
         private Dictionary<int, List<BoardItem>> _boardItems = new Dictionary<int, List<BoardItem>>();
-        private LevelManager _levelManager;
+        private LevelManager _levelManager; 
 
         public override async void StartCommand()
         {
@@ -59,10 +58,10 @@ namespace Project._Scripts.Initilazer
                 
                 for (int x = 0; x < width; x++)
                 {
-                    Vector3 targetPosition = new Vector3((x - xOffset) * _spacing, 0, z * _spacing);
+                    Vector3 targetPosition = new Vector3((x - xOffset), 0, z);
                     Vector3 startPosition = new Vector3(targetPosition.x, _startYPosition, targetPosition.z);
 
-                    BoardItem tile = Instantiate(_boardPrefab, _boardContainer);
+                    BoardItem tile = Instantiate(_boardPrefab, _boardContainer); 
                     tile.UnitSetable(z < height / 2);
  
                     lastTween = tile.transform.DOMove(targetPosition, _animationDuration)
