@@ -20,7 +20,7 @@ namespace _Project._Scripts.Cores.Units
         
         private void OnEnable()
         {
-            if (_ownerUnit != null) return;
+            if (_ownerUnit == null) return;
 
             _ownerUnit.OnDead += RemoveDeadUnit;
         }
