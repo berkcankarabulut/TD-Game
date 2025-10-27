@@ -7,14 +7,14 @@ namespace _Project._Scripts.Units.Enemies
     public class MovementState : IState
     {
         private EnemyStateMachine _stateMachine;
-        private float _movementSpeed;
+        private float _blocksPerSecond;   
         private Tweener _movementTween;
         private Transform _enemyTransform;
         
         public MovementState(EnemyStateMachine stateMachine)
         {
             _stateMachine = stateMachine;
-            _movementSpeed = stateMachine.EnemyUnit.MoveSpeed;
+            _blocksPerSecond = stateMachine.EnemyUnit.MoveSpeed;  
             _enemyTransform = stateMachine.EnemyUnit.transform;
         }
 
@@ -33,13 +33,18 @@ namespace _Project._Scripts.Units.Enemies
         }
 
         private void StartMovement()
-        { 
-            Vector3 targetPosition = _enemyTransform.position + Vector3.back * _movementSpeed;
+        {  
+            float timePerBlock = 1f / _blocksPerSecond;
             
-            _movementTween = _enemyTransform.DOMove(targetPosition, 1f)
+            Vector3 direction = Vector3.back;
+            Vector3 moveDistance = direction;
+
+            _movementTween = _enemyTransform.DOMove(
+                    _enemyTransform.position + moveDistance,
+                    timePerBlock
+                )
                 .SetEase(Ease.Linear)
-                .SetLoops(-1, LoopType.Incremental)  
-                .OnKill(() => _movementTween = null);
+                .SetLoops(-1, LoopType.Incremental);
         }
     }
 }

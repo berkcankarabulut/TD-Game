@@ -27,19 +27,7 @@ namespace _Project._Scripts.Units.Defence
                 LaunchInDirection(damage, Vector3.left);
 
             if (HasDirection(FireDirection.Right))
-                LaunchInDirection(damage, Vector3.right);
-
-            if (HasDirection(FireDirection.ForwardLeft))
-                LaunchInDirection(damage, (Vector3.forward + Vector3.left).normalized);
-
-            if (HasDirection(FireDirection.ForwardRight))
-                LaunchInDirection(damage, (Vector3.forward + Vector3.right).normalized);
-
-            if (HasDirection(FireDirection.BackLeft))
-                LaunchInDirection(damage, (Vector3.back + Vector3.left).normalized);
-
-            if (HasDirection(FireDirection.BackRight))
-                LaunchInDirection(damage, (Vector3.back + Vector3.right).normalized);
+                LaunchInDirection(damage, Vector3.right); 
         }
 
         private bool HasDirection(FireDirection direction)
@@ -54,59 +42,9 @@ namespace _Project._Scripts.Units.Defence
 
             projectileObj.Launch(null, null, damage, damage.Source);
 
-            if (projectileObj is not LinearProjectile linearTriggerProjectile) return;
-            linearTriggerProjectile.SetMaxDistance(_defenceUnit.RangeStat);
-            linearTriggerProjectile.SetDirection(direction);
-        }
-
-
-#if UNITY_EDITOR
-        private void OnDrawGizmosSelected()
-        {
-            if (projectileSpawnPoint == null) return;
-
-            float range = _defenceUnit != null ? _defenceUnit.RangeStat : 5f;
-            Vector3 start = projectileSpawnPoint.position;
-
-            // Her aktif yön için çizim yap
-            if (HasDirection(FireDirection.Forward))
-                DrawDirectionGizmo(start, Vector3.forward, range, Color.green);
-
-            if (HasDirection(FireDirection.Back))
-                DrawDirectionGizmo(start, Vector3.back, range, Color.red);
-
-            if (HasDirection(FireDirection.Left))
-                DrawDirectionGizmo(start, Vector3.left, range, Color.blue);
-
-            if (HasDirection(FireDirection.Right))
-                DrawDirectionGizmo(start, Vector3.right, range, Color.yellow);
-
-            if (HasDirection(FireDirection.ForwardLeft))
-                DrawDirectionGizmo(start, (Vector3.forward + Vector3.left).normalized, range, Color.cyan);
-
-            if (HasDirection(FireDirection.ForwardRight))
-                DrawDirectionGizmo(start, (Vector3.forward + Vector3.right).normalized, range, Color.magenta);
-
-            if (HasDirection(FireDirection.BackLeft))
-                DrawDirectionGizmo(start, (Vector3.back + Vector3.left).normalized, range, new Color(1f, 0.5f, 0f));
-
-            if (HasDirection(FireDirection.BackRight))
-                DrawDirectionGizmo(start, (Vector3.back + Vector3.right).normalized, range, new Color(0.5f, 0f, 1f));
-        }
-
-        private void DrawDirectionGizmo(Vector3 start, Vector3 direction, float range, Color color)
-        {
-            Gizmos.color = color;
-            Vector3 end = start + direction * range;
-            Gizmos.DrawLine(start, end);
-            Gizmos.DrawSphere(end, 0.2f);
-
-            // Ok başı çiz
-            Vector3 arrowRight = Quaternion.Euler(0, 30, 0) * -direction * 0.5f;
-            Vector3 arrowLeft = Quaternion.Euler(0, -30, 0) * -direction * 0.5f;
-            Gizmos.DrawLine(end, end + arrowRight);
-            Gizmos.DrawLine(end, end + arrowLeft);
-        }
-#endif
+            if (projectileObj is not LinearProjectile linearProjectile) return;
+            linearProjectile.SetMaxDistance(_defenceUnit.RangeStat);
+            linearProjectile.SetDirection(direction);
+        } 
     }
 }

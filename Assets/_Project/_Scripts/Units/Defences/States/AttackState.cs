@@ -1,6 +1,6 @@
 using _Project._Scripts.Cores.StateMachines;
 using _Project._Scripts.Cores.Units.Damages;
-using _Project._Scripts.Cores.Utilty;
+using _Project._Scripts.Utilty;
 
 namespace _Project._Scripts.Units.Defence
 { 

@@ -1,6 +1,6 @@
 using System;
 
-namespace _Project._Scripts.Cores.Utilty
+namespace _Project._Scripts.Utilty
 {
     public class TimeCounter : IDisposable
     {

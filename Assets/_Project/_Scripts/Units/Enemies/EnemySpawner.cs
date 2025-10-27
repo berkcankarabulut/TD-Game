@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using _Project._Scripts.Board;
 using _Project._Scripts.Cores.Events;
 using _Project._Scripts.Cores.Units;
-using _Project._Scripts.Cores.Utilty;
+using _Project._Scripts.Utilty;
 using _Project._Scripts.Levels;
 using UnityEngine;
 using Random = UnityEngine.Random;

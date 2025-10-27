@@ -1,7 +1,7 @@
 using _Project._Scripts.Cores.StateMachines;
 using _Project._Scripts.Cores.Units;
 using _Project._Scripts.Cores.Units.Damages;
-using _Project._Scripts.Cores.Utilty;
+using _Project._Scripts.Utilty;
 using UnityEngine;
 
 namespace _Project._Scripts.Units.Enemies
