@@ -30,7 +30,7 @@ namespace _Project._Scripts.Units.Defence
         private void DamageToTarget()
         {
             UnitDamage damage = new UnitDamage(_defenceUnit.DamageStat, _defenceUnit.UnitDamageType, _defenceUnit);
-            _defenceUnit.ProjectileLauncher.LaunchProjectile(damage, _defenceUnit.RangeStat);
+            _defenceUnit.ProjectileLauncher.LaunchProjectile(damage);
         }
 
         public void Tick(float deltaTime)

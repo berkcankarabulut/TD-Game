@@ -151,6 +151,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _speed: 10
   _calculateY: 1
-  _maxDistance: 20
   _useManualDirection: 0
   _manualDirection: {x: 0, y: 0, z: 1}

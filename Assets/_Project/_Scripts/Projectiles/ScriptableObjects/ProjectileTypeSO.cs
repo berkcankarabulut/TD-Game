@@ -7,9 +7,7 @@ namespace _Project._Scripts.Projectiles
     [CreateAssetMenu(fileName = "New Projectile Type", menuName = "BerkcanKarabulut/Projectile System/Projectile Type")]
     public class ProjectileTypeSO : ScriptableObject
     {
-        public SerializableGuid Id = SerializableGuid.NewGuid();
-        public float Speed = 10f;
-        public float MaxDistance = 20f;
+        public SerializableGuid Id = SerializableGuid.NewGuid(); 
 
 #if UNITY_EDITOR
         private void OnValidate()

@@ -511,6 +511,7 @@ GameObject:
   - component: {fileID: 8381753360271212483}
   - component: {fileID: 4905899190294891299}
   - component: {fileID: -7872253912905598910}
+  - component: {fileID: 5401603464892214240}
   m_Layer: 0
   m_Name: DefenceItem2
   m_TagString: Untagged
@@ -592,8 +593,7 @@ MonoBehaviour:
   statusEffectManager: {fileID: 7891882280907316181}
   teamType: {fileID: 11400000, guid: f38d7f68f73586148a218d2bfea64257, type: 2}
   unitDamageType: {fileID: 11400000, guid: 4d46e87aaf4119a4bbb66ddb185480dd, type: 2}
-  _projectileType: {fileID: 11400000, guid: 72352a5826e845b46b89f2836453666a, type: 2}
-  _projectileSpawnPoint: {fileID: 5974706018455800352}
+  _projectileLauncher: {fileID: 5401603464892214240}
   _attackIntervalType: {fileID: 11400000, guid: 57a34e8026891f94092ad4520535176a, type: 2}
   _rangeType: {fileID: 11400000, guid: 06f02e44bcea3c945bdc4a42b71fe880, type: 2}
   _healthBarView: {fileID: 3006623175761689093}
@@ -647,3 +647,18 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &5401603464892214240
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6640945696930375337}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e45d3a3b45e546ce9c754bd83d775090, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  projectileType: {fileID: 11400000, guid: 72352a5826e845b46b89f2836453666a, type: 2}
+  projectileSpawnPoint: {fileID: 8033854582110746342}
+  _fireDirections: 1

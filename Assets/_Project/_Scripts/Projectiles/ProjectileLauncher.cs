@@ -1,29 +1,20 @@
+using _Project._Scripts.Cores.Services;
 using _Project._Scripts.Cores.Units.Damages;
 using UnityEngine;
 
 namespace _Project._Scripts.Projectiles
 {
-    public class ProjectileLauncher
+    public abstract class ProjectileLauncher : MonoBehaviour
     {
-        private readonly ProjectileTypeSO _projectileType;
-        private readonly Transform _projectileSpawnPoint;
-        private readonly ProjectilePool _projectilePool;
+        [SerializeField] protected ProjectileTypeSO projectileType;
+        [SerializeField] protected Transform projectileSpawnPoint;
+        protected ProjectilePool projectilePool;
 
-        public ProjectileLauncher(ProjectileTypeSO projectileType, Transform projectileSpawnPoint,
-            ProjectilePool projectilePool)
+        protected virtual void Awake()
         {
-            _projectilePool = projectilePool;
-            _projectileType = projectileType;
-            _projectileSpawnPoint = projectileSpawnPoint;
+            projectilePool = ServiceLocator.Instance.Get<ProjectilePool>();
         }
 
-        public void LaunchProjectile(IUnitDamage damage, float range)
-        {
-            IPooledProjectile projectileObj = _projectilePool?.SpawnFromPool(_projectileType, _projectileSpawnPoint);
-            if (projectileObj == null) return;
-            projectileObj.Launch(null, null, damage, damage.Source);
-            if (projectileObj is LinearTriggerProjectile linearTriggerProjectile)
-                linearTriggerProjectile.SetMaxDistance(range);
-        }
+        public abstract void LaunchProjectile(IUnitDamage damage);
     }
 }

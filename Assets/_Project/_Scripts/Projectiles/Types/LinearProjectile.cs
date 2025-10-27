@@ -4,15 +4,13 @@ using UnityEngine;
 namespace _Project._Scripts.Projectiles
 {  
     [RequireComponent(typeof(Collider))]
-    public class LinearTriggerProjectile : ProjectileBase
+    public class LinearProjectile : ProjectileBase
     {
-        [Header("Linear Movement Settings")]
-        [SerializeField] private float _maxDistance = 20f;
-        
         [Header("Optional: Manual Direction")]
         [SerializeField] private bool _useManualDirection = false;
         [SerializeField] private Vector3 _manualDirection = Vector3.forward;
 
+        private float _maxDistance = 20f;
         private Vector3 _direction;
         private Vector3 _startPosition;
         private float _traveledDistance; 
