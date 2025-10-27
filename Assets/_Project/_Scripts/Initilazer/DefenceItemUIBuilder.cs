@@ -52,7 +52,7 @@ namespace _Project._Scripts.Initilazer
 
         public override void ResetCommand()
         {
-            _buttonsContainer.SetActive(false);
+            _buttonsContainer?.SetActive(false);
         }
 
         public override void Dispose()
