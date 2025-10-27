@@ -1,14 +1,21 @@
-using Cysharp.Threading.Tasks;
-using UnityEngine;
+using System;
 
 namespace _Project._Scripts.Cores.Commands
 {
-    public abstract class Command : MonoBehaviour
+    public interface ICommand : IDisposable
     {
-        [SerializeField] private bool _completeDirectly;
+        event Action<ICommand> OnCommandComplete;
+        float Percentage { get; }
+        
+        void StartCommand();
+        void CompleteCommand();
+        void ResetCommand();
+    }
 
-        public System.Action<Command> onCommandComplete = command => { };
-
+    public abstract class Command : ICommand
+    {
+        public event Action<ICommand> OnCommandComplete;
+        
         protected float percentage;
         public float Percentage => percentage;
 
@@ -17,11 +24,15 @@ namespace _Project._Scripts.Cores.Commands
         public virtual void CompleteCommand()
         {
             percentage = 1f;
-
-            onCommandComplete.Invoke(this);
-            onCommandComplete = command => { };
+            OnCommandComplete?.Invoke(this);
         }
 
         public abstract void ResetCommand();
+
+        public virtual void Dispose()
+        {
+            OnCommandComplete = null;
+            ResetCommand();
+        }
     }
 }

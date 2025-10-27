@@ -1,13 +1,15 @@
+using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace _Project._Scripts.Cores.Commands
 {
-    public abstract class CommandExecuteHandler : MonoBehaviour
+    public class CommandExecuteHandler : IDisposable
     {
-        [SerializeField] private Command[] _commands;
-
+        private List<ICommand> _commands;
         private int _commandIndex;
-        protected int CommandCount => _commands.Length;
+        
+        protected int CommandCount => _commands?.Count ?? 0;
 
         public float ExecutionProgress
         {
@@ -16,7 +18,7 @@ namespace _Project._Scripts.Cores.Commands
                 if (!IsThereAnyAvailableCommandOnCurrentIndex()) return 1f;
 
                 float completionRateForPerCommand = 1f / CommandCount;
-                Command currentCommand = _commands[_commandIndex];
+                ICommand currentCommand = _commands[_commandIndex];
 
                 float currentCompletedCommandPercentage = (float)_commandIndex / CommandCount;
                 float currentCommandPercentageCompletionRate = currentCommand.Percentage * completionRateForPerCommand;
@@ -25,8 +27,12 @@ namespace _Project._Scripts.Cores.Commands
             }
         }
 
-        public System.Action onAllCommandsExecuted = () => { };
+        public event Action OnAllCommandsExecuted;
 
+        public CommandExecuteHandler(List<ICommand> commands)
+        {
+            _commands = commands ?? new List<ICommand>();
+        }
 
         public void ExecuteCommands()
         {
@@ -37,7 +43,7 @@ namespace _Project._Scripts.Cores.Commands
 
         private void ResetAllCommand()
         {
-            for(int i = 0; i < _commands.Length-1; i++) 
+            for(int i = 0; i < _commands.Count; i++) 
                 _commands[i].ResetCommand();
         }
 
@@ -50,23 +56,18 @@ namespace _Project._Scripts.Cores.Commands
             }
             else
             {
-                OnAllCommandsExecuted();
+                OnAllCommandsExecuted?.Invoke();
             }
-        }
-
-        private void OnAllCommandsExecuted()
-        { 
-            onAllCommandsExecuted.Invoke();
         }
 
         private void ExecuteCommand()
         {
-            Command currentCommand = _commands[_commandIndex];
-            currentCommand.onCommandComplete += OnCommandCompleted;
+            ICommand currentCommand = _commands[_commandIndex];
+            currentCommand.OnCommandComplete += OnCommandCompleted;
             currentCommand.StartCommand();
         }
 
-        private void OnCommandCompleted(Command command)
+        private void OnCommandCompleted(ICommand command)
         { 
             bool checkedAndClosedConnectionWithCommand = CheckAndCloseConnectionWithCompletedCommand(command);
             if (!checkedAndClosedConnectionWithCommand) return;
@@ -74,7 +75,7 @@ namespace _Project._Scripts.Cores.Commands
             ExecuteNextCommand();
         }
 
-        private bool CheckAndCloseConnectionWithCompletedCommand(Command command)
+        private bool CheckAndCloseConnectionWithCompletedCommand(ICommand command)
         {
             bool isCompletedAndCurrentCommandEqual = CheckCompletedAndCurrentCommandEquality(command);
             if (!isCompletedAndCurrentCommandEqual) return false;
@@ -83,24 +84,38 @@ namespace _Project._Scripts.Cores.Commands
             return true;
         }
 
-        private bool CheckCompletedAndCurrentCommandEquality(Command command)
+        private bool CheckCompletedAndCurrentCommandEquality(ICommand command)
         {
-            Command currentCommand = _commands[_commandIndex];
+            ICommand currentCommand = _commands[_commandIndex];
             if (currentCommand != command)
             {
-                Debug.LogError("CURRENT COMMAND : " + currentCommand.gameObject + " NOT EQUAL TO COMPLETED COMMAND : " + command.gameObject);
+                Debug.LogError($"CURRENT COMMAND: {currentCommand.GetType().Name} NOT EQUAL TO COMPLETED COMMAND: {command.GetType().Name}");
                 return false;
             }
 
             return true;
         }
 
-        private void CloseConnectionWithCommand(Command command)
+        private void CloseConnectionWithCommand(ICommand command)
         {
-            command.onCommandComplete -= OnCommandCompleted;
+            command.OnCommandComplete -= OnCommandCompleted;
         }
 
-
         private bool IsThereAnyAvailableCommandOnCurrentIndex() => _commandIndex < CommandCount;
+
+        public void Dispose()
+        {
+            if (_commands != null)
+            {
+                foreach (var command in _commands)
+                {
+                    command?.Dispose();
+                }
+                _commands.Clear();
+                _commands = null;
+            }
+            
+            OnAllCommandsExecuted = null;
+        }
     }
 }
