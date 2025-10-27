@@ -36,12 +36,5 @@ namespace _Project._Scripts.Units.Enemies
         {
             ChangeState(new MovementState(this));
         }
-        
-        public void DamageToTarget(Unit target)
-        { 
-            _enemyUnit.DamageToTarget(target); 
-            if(target.UnitHealth.AmIDead)
-                ChangeMoveState();
-        }
     }
 }

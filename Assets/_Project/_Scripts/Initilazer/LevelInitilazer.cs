@@ -1,8 +1,8 @@
 using _Project._Scripts.Cores.Commands; 
 
-namespace Project._Scripts.Initilazer
+namespace _Project._Scripts.Initilazer
 {
-    public class GameInitilazer : CommandExecuteHandler
+    public class LevelInitilazer : CommandExecuteHandler
     { 
         private void Start()
         {

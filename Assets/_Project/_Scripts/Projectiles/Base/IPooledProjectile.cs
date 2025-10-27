@@ -7,10 +7,10 @@ namespace _Project._Scripts.Projectiles
     public interface IPooledProjectile : IPooledObject
     {
         void Initialize();
-        void Launch(Unit target, Transform targetTransform, IUnitDamage damage, Unit source);
+        void Launch(IUnit target, Transform targetTransform, IUnitDamage damage, IUnit source);
         Transform Transform { get; }
         GameObject GameObject { get; }
         ProjectilePool Pool { get; set; }
-        ProjectileTypeSO ProjectileType { get; set; }
+        ProjectileTypeSO ProjectileType { get; set; } 
     }
 }

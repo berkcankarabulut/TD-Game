@@ -1,8 +1,12 @@
+using System;
 using System.Collections.Generic;
 using _Project._Scripts.Board;
+using _Project._Scripts.Cores.Events;
+using _Project._Scripts.Cores.Units;
 using _Project._Scripts.Cores.Utilty;
 using _Project._Scripts.Levels;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 namespace _Project._Scripts.Units.Enemies
 {
@@ -13,10 +17,15 @@ namespace _Project._Scripts.Units.Enemies
         [SerializeField] private float _spaceBetweenEnemies = 2f;
 
         private List<EnemyUnit> _enemyPool = new List<EnemyUnit>();
+        private List<EnemyUnit> _spawnedUnits = new List<EnemyUnit>();
+
         private TimeCounter _timeCounter;
         private List<Vector3> _spawnPoints;
         private bool _isActive = false;
         private float _timer = 0;
+
+        [Header("Boardcasting..")]
+        [SerializeField] private VoidChannelSO _onLevelCompleted;
 
         public void Init(UnitData<EnemyUnit>[] enemies, List<BoardItem> spawnBoards)
         {
@@ -63,13 +72,23 @@ namespace _Project._Scripts.Units.Enemies
         {
             int randomSpawnIndex = Random.Range(0, _spawnPoints.Count);
             int randomEnemyIndex = Random.Range(0, _enemyPool.Count);
-            
-            EnemyUnit enemyUnit = _enemyPool[randomEnemyIndex];
-            EnemyUnit spawnUnit = Instantiate(enemyUnit, _spawnPoints[randomSpawnIndex], Quaternion.identity);
-            spawnUnit.Initialize();
+
+            EnemyUnit enemyUnit = Instantiate(_enemyPool[randomEnemyIndex], _spawnPoints[randomSpawnIndex],
+                Quaternion.identity);
+            enemyUnit.Initialize();
+            enemyUnit.OnDead += SpawnEnemyDead;
+            _spawnedUnits.Add(enemyUnit);
             
             _enemyPool.RemoveAt(randomEnemyIndex);
             HandleSpawnCompletion();
+        }
+
+        private void SpawnEnemyDead(Unit enemy, GameObject killer)
+        {
+            enemy.OnDead -= SpawnEnemyDead;
+            _spawnedUnits.Remove((EnemyUnit)enemy);
+            if (_spawnedUnits.Count != 0 || _enemyPool.Count != 0) return;
+            _onLevelCompleted?.RaiseEvent();
         }
 
 
@@ -79,6 +98,12 @@ namespace _Project._Scripts.Units.Enemies
             _isActive = false;
             _timeCounter.Dispose();
             _timeCounter = null;
+        }
+
+        private void OnDestroy()
+        {
+            for (int i = 0; i < _spawnedUnits.Count; i++)
+                _spawnedUnits[i].OnDead -= SpawnEnemyDead;
         }
     }
 }

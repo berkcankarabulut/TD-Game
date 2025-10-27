@@ -10,7 +10,7 @@ namespace _Project._Scripts.Projectiles
         [SerializeField] protected bool _calculateY = true;
 
         protected IUnitDamage _damage;
-        protected Unit _source;
+        protected IUnit _source;
 
         protected Transform _myTransform;
         protected GameObject _myGameObject;
@@ -18,7 +18,7 @@ namespace _Project._Scripts.Projectiles
         public Transform Transform => _myTransform;
         public GameObject GameObject => _myGameObject;
         public ProjectilePool Pool { get; set; }
-        public Unit Source => _source;
+        public IUnit Source => _source;
         public IUnitDamage Damage => _damage;
 
         public ProjectileTypeSO ProjectileType { get; set; }
@@ -32,7 +32,7 @@ namespace _Project._Scripts.Projectiles
             _myGameObject = gameObject;
         }
  
-        public virtual void Launch(Unit target, Transform targetTransform, IUnitDamage damage, Unit source)
+        public virtual void Launch(IUnit target, Transform targetTransform, IUnitDamage damage, IUnit source)
         {
             _damage = damage;
             _source = source;
@@ -42,7 +42,7 @@ namespace _Project._Scripts.Projectiles
             OnLaunch(target, targetTransform);
         }
  
-        protected abstract void OnLaunch(Unit target, Transform targetTransform);
+        protected abstract void OnLaunch(IUnit target, Transform targetTransform);
 
         protected void SetRotationTowards(Vector3 direction)
         {

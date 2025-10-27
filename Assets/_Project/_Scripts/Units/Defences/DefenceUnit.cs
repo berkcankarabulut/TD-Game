@@ -1,4 +1,5 @@
 using _Project._Scripts.Cores.Health;
+using _Project._Scripts.Cores.Services;
 using _Project._Scripts.Cores.Stats;
 using _Project._Scripts.Cores.Units;
 using _Project._Scripts.Cores.Units.Damages;
@@ -26,11 +27,11 @@ namespace _Project._Scripts.Units.Defence
         private Stat<UnitStatType> _attackIntervalStat;
         private Stat<UnitStatType> _rangeStat;
 
-        private ProjectileLauncher _projectileLauncher;
+        private Projectiles.ProjectileLauncher _projectileLauncher;
         private DefenceStateMachine _stateMachine;
 
         public DefenceStateMachine StateMachine => _stateMachine;
-        public ProjectileLauncher ProjectileLauncher => _projectileLauncher;
+        public Projectiles.ProjectileLauncher ProjectileLauncher => _projectileLauncher;
 
         public float DamageStat => _damageStat.TotalValue;
         public float AttackInterval => _attackIntervalStat.TotalValue;
@@ -43,7 +44,7 @@ namespace _Project._Scripts.Units.Defence
             InitializeAnimation(); 
 
             _healthBarView.Initialize(unitHealth);
-            _projectileLauncher = new ProjectileLauncher(_projectileType, _projectileSpawnPoint);
+            _projectileLauncher = new Projectiles.ProjectileLauncher(_projectileType, _projectileSpawnPoint, ServiceLocator.Instance.Get<ProjectilePool>());
             _stateMachine = new DefenceStateMachine(this);
         }
 
@@ -64,12 +65,6 @@ namespace _Project._Scripts.Units.Defence
         private void Update()
         {
             _stateMachine?.Tick(Time.deltaTime);
-        }
-
-        public void FireProjectileWithRange()
-        {
-            UnitDamage damage = new UnitDamage(DamageStat, unitDamageType, this);
-            _projectileLauncher.LaunchProjectile(damage, this, RangeStat);
         } 
         
         public override void TakeDamage(IUnitDamage damage)

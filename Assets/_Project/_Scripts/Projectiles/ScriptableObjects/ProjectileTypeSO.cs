@@ -1,5 +1,6 @@
 using GuidSystem.Runtime;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace _Project._Scripts.Projectiles
 {
@@ -7,7 +8,8 @@ namespace _Project._Scripts.Projectiles
     public class ProjectileTypeSO : ScriptableObject
     {
         public SerializableGuid Id = SerializableGuid.NewGuid();
-
+        public float Speed = 10f;
+        public float MaxDistance = 20f;
 
 #if UNITY_EDITOR
         private void OnValidate()

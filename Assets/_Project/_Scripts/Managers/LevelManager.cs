@@ -1,3 +1,4 @@
+using System;
 using _Project._Scripts.Cores.Events;
 using _Project._Scripts.Cores.Services;
 using _Project._Scripts.Levels;
@@ -19,6 +20,11 @@ namespace _Project._Scripts.Managers
         private void Awake()
         {
             ServiceLocator.Instance.Register(this);
+        }
+
+        private void OnDestroy()
+        {
+            ServiceLocator.Instance.Unregister(this);
         }
 
         private void OnEnable()
@@ -52,8 +58,9 @@ namespace _Project._Scripts.Managers
 
         private void LevelComplete()
         {
-            _currentLevel++;
-            _onSaveRequested.RaiseEvent();
+            Debug.Log("LevelComplete");
+            /*_currentLevel++;
+            _onSaveRequested.RaiseEvent();*/
         }
 
         public object CaptureState()

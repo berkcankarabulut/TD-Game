@@ -4,8 +4,7 @@ using UnityEngine;
 namespace _Project._Scripts.Cores.Units
 {
     public class UnitDetector : MonoBehaviour
-    { 
-        [SerializeField] private Collider _collider;
+    {  
         private List<Unit> _detectedUnits = new List<Unit>();
         
         private Unit _ownerUnit; 
@@ -14,21 +13,18 @@ namespace _Project._Scripts.Cores.Units
  
         public void Init(Unit owner)
         {
-            _ownerUnit = owner;
-            _collider.isTrigger = true; 
+            _ownerUnit = owner; 
         } 
         
         private void OnEnable()
         {
-            if (_ownerUnit == null) return;
-
+            if (_ownerUnit == null) return; 
             _ownerUnit.OnDead += RemoveDeadUnit;
         }
 
         private void OnDisable()
         {
-            if (_ownerUnit == null) return;
-
+            if (_ownerUnit == null) return; 
             _ownerUnit.OnDead -= RemoveDeadUnit;
         }
 

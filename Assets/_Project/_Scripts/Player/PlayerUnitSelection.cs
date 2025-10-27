@@ -34,11 +34,11 @@ namespace _Project._Scripts.Player
 
         private void Update()
         {
-            if (_selectedDefenceUnit == null) return;
+            if (_selectedDefenceUnit == null) return; 
             if (!Input.GetMouseButtonDown(0)) return;
 
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-            Physics.Raycast(ray, out RaycastHit hitInfo, _hitLayer);
+            if (!Physics.Raycast(ray, out RaycastHit hitInfo, Mathf.Infinity, _hitLayer)) return;
             GameObject hitObject = hitInfo.collider.gameObject;
             if (hitObject == null)
             {

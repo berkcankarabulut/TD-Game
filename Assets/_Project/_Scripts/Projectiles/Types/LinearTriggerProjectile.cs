@@ -2,8 +2,7 @@ using _Project._Scripts.Cores.Units;
 using UnityEngine;
 
 namespace _Project._Scripts.Projectiles
-{ 
-    [RequireComponent(typeof(Rigidbody))]
+{  
     [RequireComponent(typeof(Collider))]
     public class LinearTriggerProjectile : ProjectileBase
     {
@@ -16,22 +15,13 @@ namespace _Project._Scripts.Projectiles
 
         private Vector3 _direction;
         private Vector3 _startPosition;
-        private float _traveledDistance;
-        private Rigidbody _rigidbody;
+        private float _traveledDistance; 
         private Collider _collider;
 
         public override void Initialize()
         {
-            base.Initialize();
-            
-            _rigidbody = GetComponent<Rigidbody>();
-            _collider = GetComponent<Collider>();
-            
-            if (_rigidbody != null)
-            {
-                _rigidbody.isKinematic = true;
-                _rigidbody.useGravity = false;
-            }
+            base.Initialize(); 
+            _collider = GetComponent<Collider>(); 
             
             if (_collider != null)
             {
@@ -39,7 +29,7 @@ namespace _Project._Scripts.Projectiles
             }
         }
 
-        protected override void OnLaunch(Unit target, Transform targetTransform)
+        protected override void OnLaunch(IUnit target, Transform targetTransform)
         {
             _startPosition = _myTransform.position;
             _traveledDistance = 0f;

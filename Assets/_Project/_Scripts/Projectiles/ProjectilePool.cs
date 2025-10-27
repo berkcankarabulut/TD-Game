@@ -37,9 +37,7 @@ namespace _Project._Scripts.Projectiles
                 );
 
                 _poolDictionary.Add(item.Type.Id, objectPool);
-            }
-
-            Debug.Log("_poolDictionary.Count:" + _poolDictionary.Count);
+            } 
         }
 
         private void OnEnable()

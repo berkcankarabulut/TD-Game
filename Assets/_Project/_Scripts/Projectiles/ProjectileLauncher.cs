@@ -1,5 +1,3 @@
-using _Project._Scripts.Cores.Services;
-using _Project._Scripts.Cores.Units;
 using _Project._Scripts.Cores.Units.Damages;
 using UnityEngine;
 
@@ -11,28 +9,21 @@ namespace _Project._Scripts.Projectiles
         private readonly Transform _projectileSpawnPoint;
         private readonly ProjectilePool _projectilePool;
 
-        public ProjectileLauncher(ProjectileTypeSO projectileType, Transform projectileSpawnPoint)
+        public ProjectileLauncher(ProjectileTypeSO projectileType, Transform projectileSpawnPoint,
+            ProjectilePool projectilePool)
         {
-            _projectilePool = ServiceLocator.Instance.Get<ProjectilePool>();
+            _projectilePool = projectilePool;
             _projectileType = projectileType;
             _projectileSpawnPoint = projectileSpawnPoint;
-        } 
-        
-        public void LaunchProjectile(Unit target, Transform targetTransform, IUnitDamage damage, Unit source)
-        {
-            var projectileObj = _projectilePool?.SpawnFromPool(_projectileType, _projectileSpawnPoint);
-            projectileObj?.Launch(target, targetTransform, damage, source);
         }
-        
-        public void LaunchProjectile(IUnitDamage damage, Unit source, float range)
+
+        public void LaunchProjectile(IUnitDamage damage, float range)
         {
-            var projectileObj = _projectilePool?.SpawnFromPool(_projectileType, _projectileSpawnPoint);
-
+            IPooledProjectile projectileObj = _projectilePool?.SpawnFromPool(_projectileType, _projectileSpawnPoint);
             if (projectileObj == null) return;
-            projectileObj.Launch(null, null, damage, source);
-
-            if (projectileObj is not LinearTriggerProjectile linearProjectile) return;
-            linearProjectile.SetMaxDistance(range);
-        } 
+            projectileObj.Launch(null, null, damage, damage.Source);
+            if (projectileObj is LinearTriggerProjectile linearTriggerProjectile)
+                linearTriggerProjectile.SetMaxDistance(range);
+        }
     }
 }

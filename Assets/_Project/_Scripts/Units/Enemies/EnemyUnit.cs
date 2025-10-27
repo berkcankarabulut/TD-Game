@@ -50,16 +50,15 @@ namespace _Project._Scripts.Units.Enemies
             _moveSpeedStat = unitStatContainer.GetStatByStatType(_moveSpeedType);
         }
 
-        public void DamageToTarget(Unit target)
-        { 
-            UnitDamage damage = new UnitDamage(Damage, unitDamageType, this);
-            target.TakeDamage(damage); 
-        }
-
         public override void TakeDamage(IUnitDamage damage)
         {
             base.TakeDamage(damage);
             _healthBarView.HandleHealthChange(unitHealth.CurrentHealth, unitHealth.MaxHealth);
-        } 
+        }
+
+        protected override void OnImDead(Health myHealth, GameObject killer)
+        {
+            base.OnImDead(myHealth, killer);
+        }
     }
 }

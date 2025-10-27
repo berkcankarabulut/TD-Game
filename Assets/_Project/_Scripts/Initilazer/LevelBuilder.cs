@@ -13,6 +13,7 @@ namespace Project._Scripts.Initilazer
 {
     public class LevelBuilder : Command
     {
+        [SerializeField] private Transform _enemyWinLine;
         [SerializeField] private EnemySpawner _enemySpawner;
         [SerializeField] private Transform _boardContainer;
         [SerializeField] private BoardItem _boardPrefab;
@@ -31,10 +32,16 @@ namespace Project._Scripts.Initilazer
             Vector2 boardSize = _levelManager.GetBoardSize();
              
             await SetupBoard((int)boardSize.x, (int)boardSize.y);
-             
+            SetupEnemyWinLine();
             SetupEnemies(_levelManager.GetLevelEnemies(), _levelManager.GetBoardSize().y);
             
             CompleteCommand();
+        }
+
+        private void SetupEnemyWinLine()
+        {
+            Vector3 spawnBoards = _boardItems[0][0].transform.position;
+            _enemyWinLine.transform.position = spawnBoards + Vector3.back;
         }
 
         private void SetupEnemies(UnitData<EnemyUnit>[] getLevelEnemies, float height)
