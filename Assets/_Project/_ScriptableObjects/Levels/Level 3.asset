@@ -22,8 +22,8 @@ MonoBehaviour:
     _unitCount: 1
   _enemyUnits:
   - _unitInfo: {fileID: 11400000, guid: ef4d86818632f3f49b172d7459f1f473, type: 2}
-    _unitCount: 3
+    _unitCount: 7
   - _unitInfo: {fileID: 11400000, guid: 05a8dcbe7847cf84ab23063ec44deef6, type: 2}
-    _unitCount: 1
+    _unitCount: 3
   - _unitInfo: {fileID: 11400000, guid: da7bfc27d7856604983bf650c4f4b951, type: 2}
-    _unitCount: 1
+    _unitCount: 5
