@@ -1,5 +1,3 @@
-using System;
-using _Project._Scripts.Utilty;
 using UnityEngine;
 using UnityEngine.UI;
 

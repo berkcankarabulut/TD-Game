@@ -2013,7 +2013,7 @@ GameObject:
   - component: {fileID: 2039850023}
   - component: {fileID: 2039850024}
   m_Layer: 0
-  m_Name: LevelInitilazer
+  m_Name: LevelInitializer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

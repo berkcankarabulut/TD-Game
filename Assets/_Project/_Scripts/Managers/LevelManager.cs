@@ -1,6 +1,6 @@
-using System;
 using _Project._Scripts.Cores.Events;
-using _Project._Scripts.Cores.Services;
+using _Project._Scripts.Defences;
+using _Project._Scripts.Utilities.Services;
 using _Project._Scripts.Levels;
 using SaveSystem.Runtime;
 using UnityEngine;
@@ -43,12 +43,12 @@ namespace _Project._Scripts.Managers
             return _currentLevel;
         }
 
-        public UnitData<Units.Defence.DefenceUnit>[] GetLevelDefenceItems()
+        public UnitData<DefenceUnit>[] GetLevelDefenceItems()
         {
             return _currentLevel > _levels.Length - 1 ? _levels[0].DefenceUnits : _levels[_currentLevel].DefenceUnits;
         }
 
-        public UnitData<Units.Enemies.EnemyUnit>[] GetLevelEnemies()
+        public UnitData<Enemies.EnemyUnit>[] GetLevelEnemies()
         {
             return _currentLevel > _levels.Length - 1 ? _levels[0].EnemyUnits : _levels[_currentLevel].EnemyUnits;
         }

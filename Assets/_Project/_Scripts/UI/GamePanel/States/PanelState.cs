@@ -1,4 +1,4 @@
-using _Project._Scripts.Cores.StateMachines;
+using _Project._Scripts.Utilities.StateMachines;
 using UnityEngine;
 
 namespace _Project._Scripts.UI.GamePanel
