@@ -73,7 +73,7 @@ namespace _Project._Scripts.Defences.Projectile
             var hitUnit = other.GetComponent<Unit>();
             if (hitUnit == null || IsSameTeam(hitUnit)) return;
 
-            Instantiate(_particleSystem, hitUnit.Body.localPosition, Quaternion.identity);
+            Instantiate(_particleSystem, hitUnit.Body.position, Quaternion.identity);
             DealDamageToUnit(hitUnit);
         }
 
