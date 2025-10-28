@@ -17,14 +17,14 @@ namespace _Project._Scripts.Units.Defence
         [Header("Components")]
         [SerializeField] private DirectionalProjectileLauncher _projectileLauncher; 
         [SerializeField] private HealthBarView _healthBarView;
-
+        [SerializeField] private Animator _animator;
         //Stat Values
         private Stat<UnitStatType> _damageStat;
         private Stat<UnitStatType> _attackIntervalStat;
         private Stat<UnitStatType> _rangeStat;
         
         private DefenceStateMachine _stateMachine;
-
+        public Animator Animator => _animator;
         public DefenceStateMachine StateMachine => _stateMachine;
         public ProjectileLauncher ProjectileLauncher => _projectileLauncher;
 
@@ -62,10 +62,9 @@ namespace _Project._Scripts.Units.Defence
             _stateMachine?.Tick(Time.deltaTime);
         }
 
-        public override void TakeDamage(IUnitDamage damage)
-        {
-            base.TakeDamage(damage);
-            _healthBarView.HandleHealthChange(unitHealth.CurrentHealth, unitHealth.MaxHealth);
+        public void Destroy()
+        { 
+            Destroy(this);
         }
     }
 }

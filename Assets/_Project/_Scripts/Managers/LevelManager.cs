@@ -12,10 +12,11 @@ namespace _Project._Scripts.Managers
         [SerializeField] private LevelSO[] _levels;
         private int _currentLevel = 0;
 
-        [Header("Listening On..")]   
-        [SerializeField] private VoidChannelSO _onLevelCompleted;
-        [Header("Broadcasting On...")]
-        [SerializeField] private VoidChannelSO _onSaveRequested;
+        [Header("Listening On..")] [SerializeField]
+        private VoidChannelSO _onLevelCompleted;
+
+        [Header("Broadcasting On...")] [SerializeField]
+        private VoidChannelSO _onSaveRequested;
 
         private void Awake()
         {
@@ -28,39 +29,39 @@ namespace _Project._Scripts.Managers
         }
 
         private void OnEnable()
-        {   
+        {
             _onLevelCompleted.onEventRaised += LevelComplete;
         }
 
         private void OnDisable()
-        {  
+        {
             _onLevelCompleted.onEventRaised -= LevelComplete;
         }
 
         private int GetCurrentLevelIndex()
         {
             return _currentLevel;
-        } 
+        }
 
         public UnitData<Units.Defence.DefenceUnit>[] GetLevelDefenceItems()
         {
-            return _levels[_currentLevel].DefenceUnits;
+            return _currentLevel > _levels.Length - 1 ? _levels[0].DefenceUnits : _levels[_currentLevel].DefenceUnits;
         }
+
         public UnitData<Units.Enemies.EnemyUnit>[] GetLevelEnemies()
         {
-            return _levels[_currentLevel].EnemyUnits;
+            return _currentLevel > _levels.Length - 1 ? _levels[0].EnemyUnits : _levels[_currentLevel].EnemyUnits;
         }
 
         public Vector2 GetBoardSize()
         {
-            return _levels[_currentLevel].BoardSize;
+            return _currentLevel > _levels.Length - 1 ? _levels[0].BoardSize : _levels[_currentLevel].BoardSize;
         }
 
         private void LevelComplete()
         {
-            Debug.Log("LevelComplete");
-            /*_currentLevel++;
-            _onSaveRequested.RaiseEvent();*/
+            _currentLevel++;
+            _onSaveRequested.RaiseEvent();
         }
 
         public object CaptureState()

@@ -29,7 +29,7 @@ namespace _Project._Scripts.Board
             _currentDefenceUnit.Initialize();
             _currentDefenceUnit.OnDead += UnitOnDead;
             UnitSetable(false);
-            _onDefenceItemSetOnBoard.RaiseEvent(_currentDefenceUnit);
+            _onDefenceItemSetOnBoard.RaiseEvent(currentDefenceUnit);
         }
 
         private void UnitOnDead(Unit unit, GameObject killer)

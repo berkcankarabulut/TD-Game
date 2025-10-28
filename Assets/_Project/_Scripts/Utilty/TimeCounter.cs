@@ -28,5 +28,10 @@ namespace _Project._Scripts.Utilty
         {
             OnTimeReached = null;
         }
+
+        public float GetElapsedTime()
+        {
+            return _time;
+        }
     }
 }

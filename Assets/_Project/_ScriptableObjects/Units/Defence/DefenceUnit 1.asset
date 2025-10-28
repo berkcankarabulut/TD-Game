@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f21de02cd2d744f29d8951cf057fa577, type: 3}
   m_Name: DefenceUnit 1
   m_EditorClassIdentifier: 
-  _icon: {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
+  _icon: {fileID: 21300000, guid: ad994b617eb392a458401746b5d68346, type: 3}
   _unit: {fileID: 8381753360271212483, guid: 8cee5beec4c2dc3499f87ad211d6dc03, type: 3}
   _unitName: Defence 1

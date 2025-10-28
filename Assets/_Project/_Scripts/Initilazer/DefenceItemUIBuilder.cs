@@ -8,20 +8,19 @@ using UnityEngine;
 
 namespace _Project._Scripts.Initilazer
 {
-    public class DefenceItemUIBuilder: Command
+    public class DefenceItemUIBuilder : Command
     {
-        private readonly DefenceUnitUI _defenceUnitUIPrefab;
+        private readonly DefenceUnitUIButton _defenceUnitUIButtonPrefab;
         private readonly GameObject _buttonsContainer;
         private readonly LevelManager _levelManager;
-        
-        private List<DefenceUnitUI> _createdUIElements = new List<DefenceUnitUI>();
 
-        public DefenceItemUIBuilder(
-            DefenceUnitUI defenceUnitUIPrefab,
+        private List<DefenceUnitUIButton> _createdUIElements = new List<DefenceUnitUIButton>();
+
+        public DefenceItemUIBuilder(DefenceUnitUIButton defenceUnitUIButtonPrefab,
             GameObject buttonsContainer,
             LevelManager levelManager)
         {
-            _defenceUnitUIPrefab = defenceUnitUIPrefab;
+            _defenceUnitUIButtonPrefab = defenceUnitUIButtonPrefab;
             _buttonsContainer = buttonsContainer;
             _levelManager = levelManager;
         }
@@ -39,27 +38,28 @@ namespace _Project._Scripts.Initilazer
 
             for (int i = 0; i < defenceItems.Length; i++)
             {
-                DefenceUnitUI defenceUnitUI = Object.Instantiate(_defenceUnitUIPrefab, _buttonsContainer.transform);
-                defenceUnitUI.Init(defenceItems[i].UnitInfo, defenceItems[i].UnitCount);
-                defenceUnitUI.transform
-                    .DOScale(defenceUnitUI.transform.localScale, 1)
+                DefenceUnitUIButton defenceUnitUIButton =
+                    Object.Instantiate(_defenceUnitUIButtonPrefab, _buttonsContainer.transform);
+                defenceUnitUIButton.Init(defenceItems[i].UnitInfo, defenceItems[i].UnitCount);
+                defenceUnitUIButton.transform
+                    .DOScale(defenceUnitUIButton.transform.localScale, 1)
                     .From(Vector3.zero)
                     .SetEase(Ease.OutBack);
-                
-                _createdUIElements.Add(defenceUnitUI);
+
+                _createdUIElements.Add(defenceUnitUIButton);
             }
         }
 
         public override void ResetCommand()
         {
-            _buttonsContainer?.SetActive(false);
+            if (_buttonsContainer == null) return;
+            _buttonsContainer.SetActive(false);
         }
 
         public override void Dispose()
         {
             base.Dispose();
-            
-            // Clean up created UI elements
+
             if (_createdUIElements != null)
             {
                 foreach (var uiElement in _createdUIElements)
@@ -69,6 +69,7 @@ namespace _Project._Scripts.Initilazer
                         Object.Destroy(uiElement.gameObject);
                     }
                 }
+
                 _createdUIElements.Clear();
                 _createdUIElements = null;
             }

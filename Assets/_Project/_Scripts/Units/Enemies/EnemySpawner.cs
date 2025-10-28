@@ -13,9 +13,9 @@ namespace _Project._Scripts.Units.Enemies
     public class EnemySpawner : MonoBehaviour
     {
         [SerializeField] private float _spawnDelay = .5f;
-        [SerializeField] private Vector3 _spawnOffset = new Vector3(0, 2, 2);
-        [SerializeField] private float _spaceBetweenEnemies = 2f;
-
+        [SerializeField] private Vector3 _spawnOffset = new Vector3(0, 2, 2);  
+        [SerializeField] private GameObject _spawnParticlePrefab;
+        
         private List<EnemyUnit> _enemyPool = new List<EnemyUnit>();
         private List<EnemyUnit> _spawnedUnits = new List<EnemyUnit>();
 
@@ -59,6 +59,7 @@ namespace _Project._Scripts.Units.Enemies
             {
                 Vector3 spawnPoint = spawnBoards[i].transform.position + _spawnOffset;
                 _spawnPoints.Add(spawnPoint);
+                Instantiate(_spawnParticlePrefab, spawnPoint,_spawnParticlePrefab.transform.rotation);
             }
         }
 

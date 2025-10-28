@@ -1,18 +1,19 @@
 using _Project._Scripts.Cores.StateMachines;
-using _Project._Scripts.Cores.Units; 
+using _Project._Scripts.Cores.Units;
 using UnityEngine;
 
 namespace _Project._Scripts.Units.Defence
-{ 
+{
     public class DefenceStateMachine : StateMachine
     {
         private DefenceUnit _defenceUnit;
-        private AttackState _attackState; 
+        private AttackState _attackState;
         public DefenceUnit DefenceUnit => _defenceUnit;
+
         public DefenceStateMachine(DefenceUnit defenceUnit)
         {
             _defenceUnit = defenceUnit;
-            _attackState = new AttackState(this); 
+            _attackState = new AttackState(this);
             ChangeState(_attackState);
             _defenceUnit.OnDead += ChangeDeadState;
         }
@@ -20,7 +21,7 @@ namespace _Project._Scripts.Units.Defence
         private void ChangeDeadState(Unit unit, GameObject killer)
         {
             _defenceUnit.OnDead -= ChangeDeadState;
-            ChangeState(new DeadState());
+            ChangeState(new DeadState(this, _defenceUnit.Destroy));
         }
     }
 }

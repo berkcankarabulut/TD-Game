@@ -26,7 +26,7 @@ namespace _Project._Scripts.Projectiles
 
             foreach (var item in PoolItems)
             {
-                var objectPool = new ObjectPool<IPooledProjectile>(
+                ObjectPool<IPooledProjectile> objectPool = new ObjectPool<IPooledProjectile>(
                     () => CreatePooledItem(item),
                     OnTakeFromPool,
                     OnReturnedToPool,

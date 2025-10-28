@@ -5,14 +5,14 @@ using _Project._Scripts.Utilty;
 using UnityEngine;
 
 namespace _Project._Scripts.Units.Enemies
-{ 
-    // DOTO : Inherit alınabilecek bir Melee attack  yapısı oluşturalım. 
+{  
     public class AttackState : IState
     {
         private EnemyStateMachine _stateMachine;
         private TimeCounter _timeCounter; 
         private Unit _target;
 
+        private static readonly int AttackHash = Animator.StringToHash("OnAttack");
         public AttackState(EnemyStateMachine enemyStateMachine, Unit target)
         {
             _stateMachine = enemyStateMachine;
@@ -33,6 +33,7 @@ namespace _Project._Scripts.Units.Enemies
 
         private void AttackToTarget()
         {
+            _stateMachine.EnemyUnit.Animator.SetTrigger(AttackHash);
             DamageToTarget(_target);
         }
 

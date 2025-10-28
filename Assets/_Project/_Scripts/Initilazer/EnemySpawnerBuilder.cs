@@ -12,8 +12,7 @@ namespace _Project._Scripts.Initilazer
     {
         private readonly EnemySpawner _enemySpawner;
         private readonly LevelManager _levelManager;
-        private readonly BoardBuilder _boardBuilder;
-
+        private readonly BoardBuilder _boardBuilder; 
         public EnemySpawnerBuilder(
             EnemySpawner enemySpawner,
             LevelManager levelManager,
@@ -58,8 +57,7 @@ namespace _Project._Scripts.Initilazer
         }
 
         public override void ResetCommand()
-        {
-            // Reset if needed
+        { 
         }
 
         public override void Dispose()

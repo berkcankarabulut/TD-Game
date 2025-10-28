@@ -6,6 +6,7 @@ namespace _Project._Scripts.Units.Defence
 {
     public class DirectionalProjectileLauncher : ProjectileLauncher
     {
+        [SerializeField] private ParticleSystem[] _launchParticles;
         [Header("Fire Directions")]
         [SerializeField] private FireDirection _fireDirections = FireDirection.Forward; 
         private DefenceUnit _defenceUnit;
@@ -27,7 +28,17 @@ namespace _Project._Scripts.Units.Defence
                 LaunchInDirection(damage, Vector3.left);
 
             if (HasDirection(FireDirection.Right))
-                LaunchInDirection(damage, Vector3.right); 
+                LaunchInDirection(damage, Vector3.right);
+            TriggerLauchParticles();
+        }
+
+        private void TriggerLauchParticles()
+        {
+            for (int i = 0; i < _launchParticles.Length; i++)
+            {
+                _launchParticles[i].gameObject.SetActive(true);
+                _launchParticles[i].Play();
+            }
         }
 
         private bool HasDirection(FireDirection direction)

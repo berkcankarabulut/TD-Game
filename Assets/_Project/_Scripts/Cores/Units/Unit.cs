@@ -9,6 +9,7 @@ namespace _Project._Scripts.Cores.Units
     [RequireComponent(typeof(StatusEffectManager), typeof(UnitHealth), typeof(UnitStatContainer))]
     public abstract class Unit : MonoBehaviour, IUnit
     {
+        [SerializeField] protected Transform _body;
         [SerializeField] protected UnitHealth unitHealth;
         [SerializeField] protected UnitStatContainer unitStatContainer;
         [SerializeField] protected StatusEffectManager statusEffectManager;
@@ -23,6 +24,8 @@ namespace _Project._Scripts.Cores.Units
         public GameObject GameObject => gameObject;
         public TeamTypeSO TeamType => teamType;
         public StatusEffectManager StatusEffectManager => statusEffectManager;
+
+        public Transform Body => _body;
 
         public System.Action<Unit, GameObject> OnDead = (_, _) => { };
         public System.Action<Unit, float> OnTakeDamage = (_, _) => { };

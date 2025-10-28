@@ -13,7 +13,7 @@ namespace _Project._Scripts.Initilazer
     { 
         [Header("UI References")]
         [SerializeField] private GameObject _defenceItemsUIContainer;
-        [SerializeField] private DefenceUnitUI _defenceUnitUIPrefab;
+        [SerializeField] private DefenceUnitUIButton _defenceUnitUIButtonPrefab;
         
         [Header("Level References")]
         [SerializeField] private Transform _playerLine;
@@ -22,7 +22,7 @@ namespace _Project._Scripts.Initilazer
         [Header("Board References")]
         [SerializeField] private Transform _boardContainer;
         [SerializeField] private BoardItem _boardPrefab;
-        
+  
         [Header("Animation Settings")]  
         [SerializeField] private float _animationDuration = 0.5f;
         [SerializeField] private float _delayBetweenTiles = 0.02f;
@@ -38,8 +38,7 @@ namespace _Project._Scripts.Initilazer
         }
 
         private void InitializeCommands()
-        {
-            // 1. Board setup command - creates the game board
+        { 
             var boardSetupCommand = new BoardBuilder(
                 _boardContainer,
                 _boardPrefab,
@@ -59,7 +58,7 @@ namespace _Project._Scripts.Initilazer
                 boardSetupCommand
             ); 
             var defenceItemUIBuilderCommand = new DefenceItemUIBuilder(
-                _defenceUnitUIPrefab,
+                _defenceUnitUIButtonPrefab,
                 _defenceItemsUIContainer,
                 _levelManager
             ); 

@@ -4,28 +4,30 @@ using UnityEngine;
 namespace _Project._Scripts.Cores.Units
 {
     public class UnitDetector : MonoBehaviour
-    {  
+    {
         private List<Unit> _detectedUnits = new List<Unit>();
-        
-        private Unit _ownerUnit; 
+
+        private Unit _ownerUnit;
         public System.Action<Unit> OnUnitDetected = _ => { };
-        public System.Action<Unit> OnUnitRemoved = _ => { }; 
- 
+        public System.Action<Unit> OnUnitRemoved = _ => { };
+        private bool _isActive = false;
+
         public void Init(Unit owner)
         {
-            _ownerUnit = owner; 
-        } 
-        
+            _ownerUnit = owner;
+            _isActive = true;
+        }
+
         private void OnEnable()
         {
-            if (_ownerUnit == null) return; 
-            _ownerUnit.OnDead += RemoveDeadUnit;
+            if (_ownerUnit == null) return;
+            _ownerUnit.OnDead += CloseDetector;
         }
 
         private void OnDisable()
         {
-            if (_ownerUnit == null) return; 
-            _ownerUnit.OnDead -= RemoveDeadUnit;
+            if (_ownerUnit == null) return;
+            _ownerUnit.OnDead -= CloseDetector;
         }
 
         public List<Unit> GetDetectedUnits() => new List<Unit>(_detectedUnits);
@@ -54,14 +56,16 @@ namespace _Project._Scripts.Cores.Units
         }
 
         private void OnTriggerEnter(Collider other)
-        { 
+        {
             var unit = other.GetComponent<Unit>();
-            if (unit == null || unit.UnitHealth.AmIDead || unit == _ownerUnit || _detectedUnits.Contains(unit)) return;   
+            if (unit == null || unit.UnitHealth.AmIDead || unit.TeamType.Equals(_ownerUnit.TeamType) ||
+                _detectedUnits.Contains(unit)) return;
             AddUnit(unit);
         }
 
         private void OnTriggerExit(Collider other)
         {
+            if (!_isActive) return;
             var unit = other.GetComponent<Unit>();
             if (unit == null) return;
             RemoveUnit(unit);
@@ -85,6 +89,12 @@ namespace _Project._Scripts.Cores.Units
             _detectedUnits.Remove(unit);
             unit.OnDead -= RemoveDeadUnit;
             OnUnitRemoved.Invoke(unit);
-        } 
+        }
+
+
+        private void CloseDetector(Unit unit, GameObject killer)
+        {
+            _isActive = false;
+        }
     }
 }

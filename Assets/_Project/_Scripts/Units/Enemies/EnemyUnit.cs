@@ -1,33 +1,32 @@
-using System;
 using _Project._Scripts.Cores.Health;
 using _Project._Scripts.Cores.Stats;
-using _Project._Scripts.Cores.Units;
-using _Project._Scripts.Cores.Units.Damages;
+using _Project._Scripts.Cores.Units; 
 using UnityEngine;
 
 namespace _Project._Scripts.Units.Enemies
 {
     public class EnemyUnit : Unit
     {
-        [SerializeField] private UnitDetector _unitDetector;
         [Header("Stat Types")]  
         [SerializeField] private UnitStatType _attackIntervalType; 
         [SerializeField] private UnitStatType _moveSpeedType;
-        
-        //Stat Values
+         
+        [Header("Components")]
+        [SerializeField] private Animator _animator;
+        [SerializeField] private UnitDetector _unitDetector;
+        [SerializeField] private HealthBarView _healthBarView;
+ 
         private Stat<UnitStatType> _damageStat;
         private Stat<UnitStatType> _attackIntervalStat;
         private Stat<UnitStatType> _moveSpeedStat;
          
         private EnemyStateMachine _stateMachine; 
-        
-        [Header("UI")] 
-        [SerializeField] private HealthBarView _healthBarView;
 
-
+        //Stat Values
         public float Damage => _damageStat.TotalValue;
         public float AttackInterval => _attackIntervalStat.TotalValue;
         public float MoveSpeed => _moveSpeedStat.TotalValue;
+        public Animator Animator => _animator;
 
         public override void Initialize()
         {
@@ -48,17 +47,11 @@ namespace _Project._Scripts.Units.Enemies
             _damageStat = unitStatContainer.GetStatByStatType(unitDamageType.DamageStatType);
             _attackIntervalStat = unitStatContainer.GetStatByStatType(_attackIntervalType);
             _moveSpeedStat = unitStatContainer.GetStatByStatType(_moveSpeedType);
-        }
-
-        public override void TakeDamage(IUnitDamage damage)
+        } 
+        
+        public virtual void Destroy()
         {
-            base.TakeDamage(damage);
-            _healthBarView.HandleHealthChange(unitHealth.CurrentHealth, unitHealth.MaxHealth);
-        }
-
-        protected override void OnImDead(Health myHealth, GameObject killer)
-        {
-            base.OnImDead(myHealth, killer);
-        }
+            Destroy(this);
+        } 
     }
 }
