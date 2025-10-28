@@ -1,3 +1,4 @@
+using System;
 using _Project._Scripts.Cores.Units;
 using UnityEngine;
 using DG.Tweening;
@@ -9,7 +10,7 @@ namespace _Project._Scripts.Projectiles
     {
         [SerializeField] private TrailRenderer _trail;
         [SerializeField] private ParticleSystem _particleSystem;
-
+        [SerializeField] private Collider _collider;
         [Header("Optional: Manual Direction")] [SerializeField]
         private bool _useManualDirection = false;
 
@@ -18,15 +19,13 @@ namespace _Project._Scripts.Projectiles
         private float _maxDistance = 20f;
         private Vector3 _direction;
         private Vector3 _startPosition;
-        private float _traveledDistance;
-        private Collider _collider;
+        private float _traveledDistance; 
         private Vector3 _defaultScale;
         private Tweener _scaleTweener;
 
         public override void Initialize()
         {
             base.Initialize();
-            _collider = GetComponent<Collider>();
             _defaultScale = _myTransform.localScale;
             if (_collider != null) _collider.isTrigger = true;
         }
@@ -74,7 +73,7 @@ namespace _Project._Scripts.Projectiles
             var hitUnit = other.GetComponent<Unit>();
             if (hitUnit == null || IsSameTeam(hitUnit)) return;
 
-            Instantiate(_particleSystem, hitUnit.Body.position, Quaternion.identity);
+            Instantiate(_particleSystem, hitUnit.Body.localPosition, Quaternion.identity);
             DealDamageToUnit(hitUnit);
         }
 
@@ -102,5 +101,12 @@ namespace _Project._Scripts.Projectiles
             _trail.gameObject.SetActive(false);
             base.ReturnToPool();
         }
+
+#if UNITY_EDITOR
+        private void OnValidate()
+        { 
+            _collider = GetComponent<Collider>();
+        }
+#endif
     }
 }

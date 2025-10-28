@@ -51,7 +51,7 @@ namespace _Project._Scripts.Units.Enemies
         
         public virtual void Destroy()
         {
-            Destroy(this);
+            Destroy(gameObject);
         } 
     }
 }

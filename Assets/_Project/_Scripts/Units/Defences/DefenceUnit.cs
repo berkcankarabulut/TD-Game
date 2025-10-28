@@ -1,7 +1,6 @@
 using _Project._Scripts.Cores.Health;
 using _Project._Scripts.Cores.Stats;
-using _Project._Scripts.Cores.Units;
-using _Project._Scripts.Cores.Units.Damages;
+using _Project._Scripts.Cores.Units; 
 using _Project._Scripts.Projectiles;
 using DG.Tweening;
 using UnityEngine;
@@ -18,6 +17,7 @@ namespace _Project._Scripts.Units.Defence
         [SerializeField] private DirectionalProjectileLauncher _projectileLauncher; 
         [SerializeField] private HealthBarView _healthBarView;
         [SerializeField] private Animator _animator;
+        
         //Stat Values
         private Stat<UnitStatType> _damageStat;
         private Stat<UnitStatType> _attackIntervalStat;
@@ -64,7 +64,7 @@ namespace _Project._Scripts.Units.Defence
 
         public void Destroy()
         { 
-            Destroy(this);
+            Destroy(gameObject);
         }
     }
 }
