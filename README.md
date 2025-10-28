@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/5a4e3f76-ef8c-4c99-a396-ccb6576cacf5" alt="animated" />
+</p>
+
 # Unity Tower Defense Game
 
 A modular and extensible tower defense game built with Unity, featuring a robust architecture with state machines, object pooling, command pattern, and a flexible stat system.
